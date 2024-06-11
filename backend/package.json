@@ -5,8 +5,8 @@
   "main": "backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js"
+    "start": "node api/server.js",
+    "dev": "nodemon api/server.js"
   },
   "keywords": [],
   "author": "rabiu Ahmad",
@@ -21,6 +21,7 @@
     "winston": "^3.13.0"
   },
   "devDependencies": {
+    "@types/node": "^20.14.2",
     "nodemon": "^3.1.2"
   }
 }
