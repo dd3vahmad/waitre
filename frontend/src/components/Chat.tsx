@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import Message from "./Message";
 
-const socket = io("http://localhost:5000");
+const socket = io("http://localhost:4000");
 
 interface Menu {
   title: string;
@@ -24,36 +24,13 @@ interface Message {
 }
 
 const Chat: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      text: "Hello there, how may I help you?",
-      sentAt: new Date(),
-      options: [
-        {
-          title: "place an order",
-          value: 1,
-        },
-        {
-          title: "checkout an order",
-          value: 99,
-        },
-        {
-          title: "see order history",
-          value: 98,
-        },
-        {
-          title: "see current order",
-          value: 97,
-        },
-        {
-          title: "cancel order",
-          value: 0,
-        },
-      ],
-      sentBy: 0,
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const messageEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    console.log(selectedItems);
+  }, [selectedItems]);
 
   useEffect(() => {
     socket.on("message", (msg: Message) => {
@@ -70,12 +47,22 @@ const Chat: React.FC = () => {
   }, [messages]);
 
   const sendOption = (value: 0 | 99 | 98 | 97 | 1) => {
+    const optionMsg: Message = {
+      text: value,
+      sentBy: 1,
+      sentAt: new Date(),
+    };
+    setMessages((prevMessages) => [...prevMessages, optionMsg]);
     socket.emit("option", value);
   };
 
+  socket.off("optionMessage").on("optionMessage", (optionMessage: any) => {
+    setMessages((prevMessages) => [...prevMessages, optionMessage]);
+  });
+
   return (
-    <div className="bg-white shadow-2xl rounded-lg p-6 w-full max-w-md">
-      <div className="min-h-72 min-w-96 overflow-y-auto mb-4 flex flex-col gap-5">
+    <div className="bg-white shadow-2xl rounded-lg p-6 w-full max-w-md max-h-screen overflow-y-scroll scroll-smooth no-scrollbar">
+      <div className="min-h-72 max-h-screen min-w-96 mb-4 flex flex-col gap-5">
         {messages.map(({ text, sentAt, sentBy, menu, options }, index) => (
           <Message
             key={index}
@@ -84,6 +71,9 @@ const Chat: React.FC = () => {
             sentBy={sentBy}
             options={options}
             onClick={sendOption}
+            setSelectedItems={(index: number) =>
+              setSelectedItems([...selectedItems, index])
+            }
             menu={menu}
           />
         ))}
