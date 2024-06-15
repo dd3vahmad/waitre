@@ -23,7 +23,7 @@ export const Menu = {
   ],
   menuOptions: [
     {
-      title: "to see options",
+      title: "to see all options",
       value: 69,
     },
     {
