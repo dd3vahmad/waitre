@@ -21,6 +21,7 @@ interface Props {
   onClick: (value: 1 | 99 | 98 | 97 | 0) => void;
   sentBy: 0 | 1;
   sentAt: Date | string;
+  setSelectedItems: (index: number) => void;
 }
 
 const Message = ({
@@ -30,6 +31,7 @@ const Message = ({
   sentBy,
   sentAt,
   onClick,
+  setSelectedItems,
 }: Props) => {
   const UserIcon =
     "https://t4.ftcdn.net/jpg/08/14/64/71/240_F_814647190_f3gpsdVJKC89OxukLaZVQHIotS1s6LWz.jpg";
@@ -53,7 +55,7 @@ const Message = ({
         } flex flex-col items-end gap-1 max-w-64`}
       >
         <p className="text-white mb-0 font-bold text-xs">{text}</p>
-        {menu?.length && <Menu menus={menu} />}
+        {menu?.length && <Menu menus={menu} onClick={setSelectedItems} />}
         {options?.length ? (
           <Options options={options} onClick={onClick} />
         ) : null}
