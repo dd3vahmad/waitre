@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import http from "http";
 import { Server } from "socket.io";
+import logger from "../backend/api/utils/logger.util";
 dotenv.config();
 
 export const app = express();
@@ -17,7 +18,7 @@ export const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected", socket.id);
+  logger.info(`A user connected - Socket ID: ${socket.id}`);
 
   const options = {
     text: "Hello there, how may I help you?",
