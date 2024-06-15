@@ -21,5 +21,15 @@ export const Menu = {
         "https://allnigerianfoods.com/wp-content/uploads/Ewa-agoyin.jpg",
     },
   ],
+  menuOptions: [
+    {
+      title: "to see options",
+      value: 69,
+    },
+    {
+      title: "checkout an order",
+      value: 99,
+    },
+  ],
   sentBy: 0,
 };

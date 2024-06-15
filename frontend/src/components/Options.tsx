@@ -1,17 +1,17 @@
 interface OptionProps {
   title: string;
-  value: 1 | 99 | 98 | 97 | 0;
+  value: 1 | 99 | 98 | 97 | 0 | 69;
 }
 
 interface Props {
-  options: OptionProps[];
-  onClick: (value: 1 | 99 | 98 | 97 | 0) => void;
+  options?: OptionProps[];
+  onClick: (value: 1 | 99 | 98 | 97 | 0 | 69) => void;
 }
 
 const Options = ({ options, onClick }: Props) => {
   return (
     <div className="flex flex-col my-2 gap-2 border-1">
-      {options.map(({ title, value }: OptionProps, index) => (
+      {options?.map(({ title, value }: OptionProps, index) => (
         <p
           key={index}
           onClick={() => onClick(value)}

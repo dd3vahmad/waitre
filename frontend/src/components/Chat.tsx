@@ -12,12 +12,13 @@ interface Menu {
 
 interface Option {
   title: string;
-  value: 1 | 99 | 98 | 97 | 0;
+  value: 1 | 99 | 98 | 97 | 0 | 69;
 }
 
 interface Message {
   text: string | number;
   menu?: Menu[];
+  menuOptions?: Option[];
   options?: Option[];
   sentBy: 0 | 1;
   sentAt: Date | string;
@@ -46,7 +47,7 @@ const Chat: React.FC = () => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendOption = (value: 0 | 99 | 98 | 97 | 1) => {
+  const sendOption = (value: 0 | 1 | 99 | 98 | 97 | 69) => {
     const optionMsg: Message = {
       text: value,
       sentBy: 1,
@@ -63,20 +64,23 @@ const Chat: React.FC = () => {
   return (
     <div className="bg-white shadow-2xl rounded-lg p-6 w-full max-w-md max-h-screen overflow-y-scroll scroll-smooth no-scrollbar">
       <div className="min-h-72 max-h-screen min-w-96 mb-4 flex flex-col gap-5">
-        {messages.map(({ text, sentAt, sentBy, menu, options }, index) => (
-          <Message
-            key={index}
-            text={text}
-            sentAt={sentAt}
-            sentBy={sentBy}
-            options={options}
-            onClick={sendOption}
-            setSelectedItems={(index: number) =>
-              setSelectedItems([...selectedItems, index])
-            }
-            menu={menu}
-          />
-        ))}
+        {messages.map(
+          ({ text, sentAt, sentBy, menu, options, menuOptions }, index) => (
+            <Message
+              key={index}
+              text={text}
+              sentAt={sentAt}
+              sentBy={sentBy}
+              options={options}
+              onClick={sendOption}
+              setSelectedItems={(index: number) =>
+                setSelectedItems([...selectedItems, index])
+              }
+              menu={menu}
+              menuOptions={menuOptions}
+            />
+          )
+        )}
         <div ref={messageEndRef} />
       </div>
     </div>

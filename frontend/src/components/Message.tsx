@@ -11,14 +11,15 @@ interface MenuProps {
 
 interface OptionProps {
   title: string;
-  value: 1 | 99 | 98 | 97 | 0;
+  value: 1 | 99 | 98 | 97 | 0 | 69;
 }
 
 interface Props {
   text: string | number;
   menu?: MenuProps[];
+  menuOptions?: OptionProps[];
   options?: OptionProps[];
-  onClick: (value: 1 | 99 | 98 | 97 | 0) => void;
+  onClick: (value: 1 | 99 | 98 | 97 | 0 | 69) => void;
   sentBy: 0 | 1;
   sentAt: Date | string;
   setSelectedItems: (index: number) => void;
@@ -27,6 +28,7 @@ interface Props {
 const Message = ({
   text,
   menu,
+  menuOptions,
   options = [],
   sentBy,
   sentAt,
@@ -55,7 +57,14 @@ const Message = ({
         } flex flex-col items-end gap-1 max-w-64`}
       >
         <p className="text-white mb-0 font-bold text-xs">{text}</p>
-        {menu?.length && <Menu menus={menu} onClick={setSelectedItems} />}
+        {menu?.length && (
+          <Menu
+            menuOptions={menuOptions}
+            menus={menu}
+            onClick={setSelectedItems}
+            sendOption={onClick}
+          />
+        )}
         {options?.length ? (
           <Options options={options} onClick={onClick} />
         ) : null}
