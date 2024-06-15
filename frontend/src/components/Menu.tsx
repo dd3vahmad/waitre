@@ -1,5 +1,7 @@
+import { useState } from "react";
 import MenuItem from "./MenuItem";
 import Options from "./Options";
+import Item from "./Item";
 
 interface Props {
   menus: { title: string; price: number; imageUrl: string }[];
@@ -11,10 +13,43 @@ interface Props {
   }[];
 }
 
+interface selection {
+  imageUrl: string;
+  itemCount: number;
+  index: number;
+}
+
 const Menu = ({ menus, onClick, menuOptions, sendOption }: Props) => {
+  const [selections, setSelections] = useState<selection[]>([]);
+
+  const updateSelections = (index: number) => {
+    const indexIndexInSelections = selections.findIndex(
+      (selection) => selection.index === index
+    );
+    if (indexIndexInSelections !== -1) {
+      selections[indexIndexInSelections].itemCount++;
+      return setSelections(selections);
+    }
+    setSelections((prev) => [
+      ...prev,
+      {
+        imageUrl: menus[index].imageUrl,
+        itemCount: 1,
+        index,
+      },
+    ]);
+  };
+
   return (
     <div className="w-full flex flex-col gap-2">
-      <div>List of selected items</div>
+      <div style={{ display: selections.length ? "block" : "none" }}>
+        <div className="text-xs text-white font-semibold">Selected Items:</div>
+        <div className="flex gap-2 flex-wrap mt-1">
+          {selections.map(({ imageUrl, itemCount }, i) => (
+            <Item key={i} imageUrl={imageUrl} itemCount={itemCount} />
+          ))}
+        </div>
+      </div>
       <div>
         {menus?.map(({ title, price, imageUrl }, index) => {
           return (
@@ -24,7 +59,10 @@ const Menu = ({ menus, onClick, menuOptions, sendOption }: Props) => {
               title={title}
               price={price}
               imageUrl={imageUrl}
-              onClick={onClick}
+              onClick={(index) => {
+                updateSelections(index);
+                onClick(index);
+              }}
             />
           );
         })}

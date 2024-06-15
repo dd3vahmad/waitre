@@ -56,7 +56,9 @@ const Message = ({
           sentBy ? "rounded-s-lg" : "rounded-e-lg"
         } flex flex-col items-end gap-1 max-w-64`}
       >
-        <p className="text-white mb-0 font-bold text-xs">{text}</p>
+        <p className="text-slate-100 mb-0 font-bold text-xs italic underline">
+          {text}
+        </p>
         {menu?.length && (
           <Menu
             menuOptions={menuOptions}
