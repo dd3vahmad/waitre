@@ -5,7 +5,7 @@ import Item from "./Item";
 
 interface Props {
   menus: { title: string; price: number; imageUrl: string }[];
-  onClick: (index: number) => void;
+  onClick: (index: number, type: string) => void;
   sendOption: (index: 1 | 99 | 98 | 97 | 0 | 69) => void;
   menuOptions?: {
     title: string;
@@ -22,13 +22,25 @@ interface selection {
 const Menu = ({ menus, onClick, menuOptions, sendOption }: Props) => {
   const [selections, setSelections] = useState<selection[]>([]);
 
-  const updateSelections = (index: number) => {
+  const updateSelections = (index: number, updateType: string) => {
     const indexIndexInSelections = selections.findIndex(
       (selection) => selection.index === index
     );
-    if (indexIndexInSelections !== -1) {
+    if (indexIndexInSelections !== -1 && updateType === "add") {
       selections[indexIndexInSelections].itemCount++;
       return setSelections(selections);
+    }
+    if (indexIndexInSelections !== -1 && updateType === "remove") {
+      if (selections[indexIndexInSelections].itemCount <= 1) {
+        const newSelections = selections.filter(
+          (selection) => selection.index !== index
+        );
+        return setSelections(newSelections);
+      } else {
+        selections[indexIndexInSelections].itemCount--;
+        return setSelections(selections);
+      }
+      return;
     }
     setSelections((prev) => [
       ...prev,
@@ -45,8 +57,17 @@ const Menu = ({ menus, onClick, menuOptions, sendOption }: Props) => {
       <div style={{ display: selections.length ? "block" : "none" }}>
         <div className="text-xs text-white font-semibold">Selected Items:</div>
         <div className="flex gap-2 flex-wrap mt-1">
-          {selections.map(({ imageUrl, itemCount }, i) => (
-            <Item key={i} imageUrl={imageUrl} itemCount={itemCount} />
+          {selections.map(({ imageUrl, itemCount, index }, i) => (
+            <Item
+              key={i}
+              imageUrl={imageUrl}
+              itemCount={itemCount}
+              index={index}
+              onClick={(index: number, updateType: string): void => {
+                updateSelections(index, updateType);
+                onClick(index, "remove");
+              }}
+            />
           ))}
         </div>
       </div>
@@ -59,9 +80,9 @@ const Menu = ({ menus, onClick, menuOptions, sendOption }: Props) => {
               title={title}
               price={price}
               imageUrl={imageUrl}
-              onClick={(index) => {
-                updateSelections(index);
-                onClick(index);
+              onClick={(index: number, updateType: string): void => {
+                updateSelections(index, updateType);
+                onClick(index, "add");
               }}
             />
           );

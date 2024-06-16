@@ -22,7 +22,7 @@ interface Props {
   onClick: (value: 1 | 99 | 98 | 97 | 0 | 69) => void;
   sentBy: 0 | 1;
   sentAt: Date | string;
-  setSelectedItems: (index: number) => void;
+  setSelectedItems: (index: number, type: string) => void;
 }
 
 const Message = ({

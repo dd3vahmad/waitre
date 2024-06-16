@@ -11,6 +11,9 @@ const useGetOptionMessage = (option: number) => {
     case 69:
       message = Options;
       break;
+    case 99:
+      message = Options;
+      break;
 
     default:
       break;

@@ -5,13 +5,13 @@ interface Props {
   price: number;
   imageUrl: string;
   index: number;
-  onClick: (index: number) => void;
+  onClick: (index: number, updateType: string) => void;
 }
 
 const MenuItem = ({ title, price, imageUrl, onClick, index }: Props) => {
   return (
     <div
-      onClick={() => onClick(index)}
+      onClick={() => onClick(index, "add")}
       className="flex gap-2 border p-1 rounded-sm hover:opacity-60 cursor-pointer"
     >
       <div className="flex justify-center items-center w-fit rounded-full overflow-hidden">

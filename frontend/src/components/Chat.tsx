@@ -29,9 +29,11 @@ const Chat: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const messageEndRef = useRef<HTMLDivElement>(null);
 
+  // Next is to checkout order
   useEffect(() => {
     console.log(selectedItems);
   }, [selectedItems]);
+  // Checkout order
 
   useEffect(() => {
     socket.on("message", (msg: Message) => {
@@ -73,9 +75,14 @@ const Chat: React.FC = () => {
               sentBy={sentBy}
               options={options}
               onClick={sendOption}
-              setSelectedItems={(index: number) =>
-                setSelectedItems([...selectedItems, index])
-              }
+              setSelectedItems={(index: number, type: string) => {
+                if (type === "add") {
+                  return setSelectedItems([...selectedItems, index]);
+                }
+                const itemIndex = selectedItems.lastIndexOf(index);
+                selectedItems.splice(itemIndex, 1);
+                return setSelectedItems(selectedItems);
+              }}
               menu={menu}
               menuOptions={menuOptions}
             />
