@@ -29,6 +29,10 @@ io.on("connection", (socket) => {
     socket.emit("optionMessage", optionMessage);
   });
 
+  socket.on("order-items", (orderItems: number[]) => {
+    // return
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnects", socket.id);
   });
