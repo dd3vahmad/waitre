@@ -15,10 +15,22 @@ interface Option {
   value: 1 | 99 | 98 | 97 | 0 | 69;
 }
 
+interface Order {
+  title: string;
+  price: number;
+  imageUrl: string;
+  itemCount: number;
+}
+
+interface Orders {
+  orders: Order[];
+}
+
 interface Message {
   text: string | number;
   menu?: Menu[];
   menuOptions?: Option[];
+  orderHistory?: Orders[];
   options?: Option[];
   sentBy: 0 | 1;
   sentAt: Date | string;
@@ -33,7 +45,7 @@ const Chat: React.FC = () => {
   useEffect(() => {
     console.log(selectedItems);
   }, [selectedItems]);
-  // Checkout order
+  // End of `Checkout order
 
   useEffect(() => {
     socket.on("message", (msg: Message) => {
@@ -50,6 +62,24 @@ const Chat: React.FC = () => {
   }, [messages]);
 
   const sendOption = (value: 0 | 1 | 99 | 98 | 97 | 69) => {
+    if (value === 99 && !selectedItems.length) {
+      const noOrderMsg: Message = {
+        text: "No order to place",
+        sentAt: new Date(),
+        menuOptions: [
+          {
+            title: "to see all options",
+            value: 69,
+          },
+          {
+            title: "to place new order",
+            value: 1,
+          },
+        ],
+        sentBy: 0,
+      };
+      return setMessages((prevMessages) => [...prevMessages, noOrderMsg]);
+    }
     const optionMsg: Message = {
       text: value,
       sentBy: 1,
@@ -57,6 +87,8 @@ const Chat: React.FC = () => {
     };
     setMessages((prevMessages) => [...prevMessages, optionMsg]);
     socket.emit("option", value);
+    if (value === 99) socket.emit("order-items", selectedItems);
+    return setSelectedItems([]);
   };
 
   socket.off("optionMessage").on("optionMessage", (optionMessage: any) => {
@@ -67,7 +99,10 @@ const Chat: React.FC = () => {
     <div className="bg-white shadow-2xl rounded-lg p-6 w-full max-w-md max-h-screen overflow-y-scroll scroll-smooth no-scrollbar">
       <div className="min-h-72 max-h-screen min-w-96 mb-4 flex flex-col gap-5">
         {messages.map(
-          ({ text, sentAt, sentBy, menu, options, menuOptions }, index) => (
+          (
+            { text, sentAt, sentBy, menu, options, menuOptions, orderHistory },
+            index
+          ) => (
             <Message
               key={index}
               text={text}
@@ -85,6 +120,7 @@ const Chat: React.FC = () => {
               }}
               menu={menu}
               menuOptions={menuOptions}
+              OrderHistory={orderHistory}
             />
           )
         )}

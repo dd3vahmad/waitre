@@ -36,11 +36,9 @@ const Menu = ({ menus, onClick, menuOptions, sendOption }: Props) => {
           (selection) => selection.index !== index
         );
         return setSelections(newSelections);
-      } else {
-        selections[indexIndexInSelections].itemCount--;
-        return setSelections(selections);
       }
-      return;
+      selections[indexIndexInSelections].itemCount--;
+      return setSelections(selections);
     }
     setSelections((prev) => [
       ...prev,

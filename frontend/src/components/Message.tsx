@@ -2,6 +2,7 @@ import useFormatDate from "../hooks/useFormatDate";
 import Menu from "./Menu";
 import ChatBotIcon from "../assets/chatbot-icon.png";
 import Options from "./Options";
+import Orders from "./Orders";
 
 interface MenuProps {
   title: string;
@@ -14,10 +15,22 @@ interface OptionProps {
   value: 1 | 99 | 98 | 97 | 0 | 69;
 }
 
+interface OrderProps {
+  title: string;
+  price: number;
+  imageUrl: string;
+  itemCount: number;
+}
+
+interface OrdersProps {
+  orders: OrderProps[];
+}
+
 interface Props {
   text: string | number;
   menu?: MenuProps[];
   menuOptions?: OptionProps[];
+  OrderHistory?: OrdersProps[];
   options?: OptionProps[];
   onClick: (value: 1 | 99 | 98 | 97 | 0 | 69) => void;
   sentBy: 0 | 1;
@@ -29,6 +42,7 @@ const Message = ({
   text,
   menu,
   menuOptions,
+  OrderHistory,
   options = [],
   sentBy,
   sentAt,
@@ -37,6 +51,7 @@ const Message = ({
 }: Props) => {
   const UserIcon =
     "https://t4.ftcdn.net/jpg/08/14/64/71/240_F_814647190_f3gpsdVJKC89OxukLaZVQHIotS1s6LWz.jpg";
+  console.log(OrderHistory);
 
   return (
     <div
@@ -70,6 +85,11 @@ const Message = ({
         {options?.length ? (
           <Options options={options} onClick={onClick} />
         ) : null}
+        {OrderHistory?.length
+          ? OrderHistory.map((history, i) => (
+              <Orders index={i} Orders={history} />
+            ))
+          : null}
         <span
           className="font-semibold italic text-slate-100"
           style={{ fontSize: "10px" }}
