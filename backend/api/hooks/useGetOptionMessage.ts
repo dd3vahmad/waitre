@@ -1,3 +1,6 @@
+import { CheckOutMsg } from "../resources/CheckOutMsg";
+import { CurrentOrderMsg } from "../resources/CurrentOrderMsg";
+import { HistoryMsg } from "../resources/HistoryMsg";
 import { Menu } from "../resources/Menu";
 import { Options } from "../resources/Options";
 
@@ -12,7 +15,16 @@ const useGetOptionMessage = (option: number) => {
       message = Options;
       break;
     case 99:
-      message = Options;
+      message = CheckOutMsg;
+      break;
+    case 98:
+      message = HistoryMsg;
+      break;
+    case 97:
+      message = CurrentOrderMsg;
+      break;
+    case 97:
+      message = CurrentOrderMsg;
       break;
 
     default:
