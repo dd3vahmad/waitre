@@ -6,11 +6,11 @@ export const CurrentOrderMsg = true
       sentAt: new Date(),
       menuOptions: [
         {
-          title: "to place a new order",
+          title: "see all options",
           value: 69,
         },
         {
-          title: "to see all options",
+          title: "place a new order",
           value: 1,
         },
       ],
@@ -21,8 +21,12 @@ export const CurrentOrderMsg = true
       orderHistory: [CurrentOrder],
       menuOptions: [
         {
-          title: "to see all options",
+          title: "see all options",
           value: 69,
+        },
+        {
+          title: "place a new order",
+          value: 1,
         },
       ],
     };

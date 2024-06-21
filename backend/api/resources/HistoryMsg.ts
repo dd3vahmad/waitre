@@ -1,12 +1,12 @@
-import { History } from "./History";
+import { Histories } from "./Histories";
 
 export const HistoryMsg = {
   text: "Below is your order history",
   sentAt: new Date(),
-  orderHistory: [History],
+  orderHistory: Histories,
   menuOptions: [
     {
-      title: "to see all options",
+      title: "see all options",
       value: 69,
     },
   ],

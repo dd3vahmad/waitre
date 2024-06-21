@@ -23,7 +23,7 @@ const useGetOptionMessage = (option: number) => {
     case 97:
       message = CurrentOrderMsg;
       break;
-    case 97:
+    case 0:
       message = CurrentOrderMsg;
       break;
 
