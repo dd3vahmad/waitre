@@ -1,16 +1,10 @@
 import { useState } from "react";
 import MenuItem from "./MenuItem";
-import Options from "./Options";
 import Item from "./Item";
 
 interface Props {
   menus: { title: string; price: number; imageUrl: string }[];
   onClick: (index: number, type: string) => void;
-  sendOption: (index: 1 | 99 | 98 | 97 | 0 | 69) => void;
-  menuOptions?: {
-    title: string;
-    value: 1 | 99 | 98 | 97 | 0 | 69;
-  }[];
 }
 
 interface selection {
@@ -19,7 +13,7 @@ interface selection {
   index: number;
 }
 
-const Menu = ({ menus, onClick, menuOptions, sendOption }: Props) => {
+const Menu = ({ menus, onClick }: Props) => {
   const [selections, setSelections] = useState<selection[]>([]);
 
   const updateSelections = (index: number, updateType: string) => {
@@ -86,7 +80,6 @@ const Menu = ({ menus, onClick, menuOptions, sendOption }: Props) => {
           );
         })}
       </div>
-      <Options options={menuOptions} onClick={sendOption} />
     </div>
   );
 };

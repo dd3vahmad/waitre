@@ -23,7 +23,7 @@ const Orders = ({ Orders, index }: Props) => {
         {index + 1}
       </span>
       <div className="border px-2 rounded-sm">
-        {Orders.orders.map((order) => {
+        {Orders.orders?.map((order) => {
           return <Order order={order} />;
         })}
       </div>

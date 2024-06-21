@@ -74,14 +74,7 @@ const Message = ({
         <p className="text-slate-100 mb-0 font-bold text-xs italic underline">
           {text}
         </p>
-        {menu?.length && (
-          <Menu
-            menuOptions={menuOptions}
-            menus={menu}
-            onClick={setSelectedItems}
-            sendOption={onClick}
-          />
-        )}
+        {menu?.length && <Menu menus={menu} onClick={setSelectedItems} />}
         {options?.length ? (
           <Options options={options} onClick={onClick} />
         ) : null}
@@ -90,6 +83,9 @@ const Message = ({
               <Orders index={i} Orders={history} />
             ))
           : null}
+        {menuOptions?.length ? (
+          <Options options={menuOptions} onClick={onClick} />
+        ) : null}
         <span
           className="font-semibold italic text-slate-100"
           style={{ fontSize: "10px" }}
