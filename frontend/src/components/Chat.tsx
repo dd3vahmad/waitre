@@ -95,7 +95,7 @@ const Chat = ({ username, botname }: Props) => {
           <span className="bg-green-500 w-1.5 h-1.5 rounded-full"></span>
         </p>
       </div>
-      <div className="min-h-72 min-w-96 flex flex-col gap-5 bg-slate-50 rounded-lg p-6 w-full max-w-md overflow-y-scroll chat-height scroll-smooth no-scrollbar">
+      <div className="flex flex-col gap-5 bg-slate-50 rounded-lg p-6 overflow-y-scroll chat-height scroll-smooth no-scrollbar">
         {messages.map(
           (
             { text, sentAt, sentBy, menu, options, menuOptions, orderHistory },
