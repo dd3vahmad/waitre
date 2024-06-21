@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import Message from "./Message";
 
@@ -36,7 +36,12 @@ interface Message {
   sentAt: Date | string;
 }
 
-const Chat: React.FC = () => {
+interface Props {
+  username: string;
+  botname: string;
+}
+
+const Chat = ({ username, botname }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const messageEndRef = useRef<HTMLDivElement>(null);
@@ -48,6 +53,7 @@ const Chat: React.FC = () => {
   // End of `Checkout order
 
   useEffect(() => {
+    socket.emit("user-joined", username);
     socket.on("message", (msg: Message) => {
       setMessages((prevMessages) => [...prevMessages, msg]);
     });
@@ -63,22 +69,7 @@ const Chat: React.FC = () => {
 
   const sendOption = (value: 0 | 1 | 99 | 98 | 97 | 69) => {
     if (value === 99 && !selectedItems.length) {
-      const noOrderMsg: Message = {
-        text: "No order to place",
-        sentAt: new Date(),
-        menuOptions: [
-          {
-            title: "to see all options",
-            value: 69,
-          },
-          {
-            title: "to place new order",
-            value: 1,
-          },
-        ],
-        sentBy: 0,
-      };
-      return setMessages((prevMessages) => [...prevMessages, noOrderMsg]);
+      return socket.emit("no-order", true);
     }
     const optionMsg: Message = {
       text: value,
@@ -96,8 +87,15 @@ const Chat: React.FC = () => {
   });
 
   return (
-    <div className="bg-white shadow-2xl rounded-lg p-6 w-full max-w-md max-h-screen overflow-y-scroll scroll-smooth no-scrollbar">
-      <div className="min-h-72 max-h-screen min-w-96 mb-4 flex flex-col gap-5">
+    <div className="flex flex-col bg-red-300 rounded-lg shadow-2xl">
+      <div className="p-2">
+        <h2 className="text-md font-semibold">Welcome {username}</h2>
+        <p className="flex items-center gap-0.5">
+          <span className="text-sm font-semibold">{botname}</span>
+          <span className="bg-green-500 w-1.5 h-1.5 rounded-full"></span>
+        </p>
+      </div>
+      <div className="min-h-72 min-w-96 flex flex-col gap-5 bg-slate-50 rounded-lg p-6 w-full max-w-md overflow-y-scroll chat-height scroll-smooth no-scrollbar">
         {messages.map(
           (
             { text, sentAt, sentBy, menu, options, menuOptions, orderHistory },
